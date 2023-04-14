@@ -4,7 +4,7 @@ public class Knight extends ChessPiece{
     
     private static final int[] horizontalMovements = {2, 1, -1, -2, -2, -1, 1, 2};
     private static final int[] verticalMovements = {-1, -2, -2, -1, 1, 2, 2, 1};
-    private int houseCount = 0;
+    private int movementCounter = 0;
 
     // ************************************************
 	// 
@@ -39,7 +39,7 @@ public class Knight extends ChessPiece{
     }
 
     private void updateKnightRowAndCol(int movementType, ChessBoard chessBoard) {
-        chessBoard.place(Integer.toString(this.houseCount++), this.currentRow, this.currentCol);
+        chessBoard.place(Integer.toString(this.movementCounter++), this.currentRow, this.currentCol);
         this.currentRow += verticalMovements[movementType];
         this.currentCol += horizontalMovements[movementType];
     }
@@ -51,14 +51,20 @@ public class Knight extends ChessPiece{
         return (newRow >= 0 && newCol >=0 && newRow < board.length && newCol <board[newRow].length);
     }
 
+    public void resetMovementCounter() {
+        this.movementCounter = 0;
+    }
+
+
+
     // ************************************************
 	// 
 	// Getters and Setters
 	// 
 	// ************************************************
 
-    public int getHouseCount() {
-        return this.houseCount;
+    public int getMovementCounter() {
+        return this.movementCounter;
     }
 
     public static int[] getVerticalMovements() {

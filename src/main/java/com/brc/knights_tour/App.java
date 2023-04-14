@@ -1,5 +1,7 @@
 package com.brc.knights_tour;
 import java.util.InputMismatchException;
+import java.util.Random; //imported both to test
+import java.security.SecureRandom;
 import java.util.Scanner;
 
 import com.brc.knights_tour.resources.*;
@@ -14,7 +16,7 @@ public class App {
     private static final boolean CHECK_FOR_VISITED_PLACES = true;
 
     /*Objects */
-    private static final Scanner scanner = new Scanner(System.in);
+    private static final SecureRandom random = new SecureRandom();
     private static ChessBoard chessBoard = new ChessBoard(BOARD_SIZE);
     private static Knight knight = new Knight(START_KNIGHT_ROW, START_KNIGHT_COL);
     
@@ -28,16 +30,19 @@ public class App {
 	// ************************************************
 
     public static void main(String[] args) {
-        prepareTour();
+        
         for (int tour = 0; tour < NUMBER_OF_TOURS; tour++) {
+            prepareTour();
             for (int movement = 0; movement < NUMBER_OF_MOVEMENTS; movement++) {
-                clearConsole();
+                //clearConsole();
                 displayMovements();
                 chessBoard.display();
                 showCommands();
-                knightMovementType = getMovementInput();
+                knightMovementType = random.nextInt(8);
                 moveTheKnight();
             }
+            chessBoard.reset();
+            knight.resetMovementCounter();
         }
     }
 
@@ -48,11 +53,12 @@ public class App {
 	// ************************************************
 
     public static void displayMovements() {
-        System.out.printf("[MOVEMENTS: %d]%n", knight.getHouseCount());
+        System.out.printf("[MOVEMENTS: %d]%n", knight.getMovementCounter());
     }
 
     public static void prepareTour() {
         chessBoard.placePiece(knight, START_KNIGHT_ROW, START_KNIGHT_COL);
+        
     }
 
     public static void showCommands() {
@@ -63,21 +69,6 @@ public class App {
         System.out.printf("%s         %s%n", (knight.isPossibleMovement(4, chessBoard)) ? "4" : "", (knight.isPossibleMovement(7, chessBoard)) ? "7" : "");
         System.out.printf("  %s     %s  %n", knight.isPossibleMovement(5, chessBoard) ? "5" : "", (knight.isPossibleMovement(6, chessBoard)) ? "6" : "");
         System.out.println();
-    }
-
-    public static int getMovementInput() {
-        int input = -1;
-        
-        System.out.printf("Make Your Move>> ");
-        do {
-            try {
-                input = scanner.nextInt();
-            } catch (InputMismatchException e) {
-                scanner.nextLine();
-                continue;
-            }
-        } while (input < 0 || input > 7);
-        return input;
     }
 
     public static void clearConsole() {

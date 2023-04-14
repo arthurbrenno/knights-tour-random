@@ -27,6 +27,15 @@ public class ChessBoard {
 	// 
 	// ************************************************
 
+    public void reset() {
+        for(int row = 0; row < boardSize; row++) {
+            for (int col = 0; col < boardSize; col++) {
+                board[row][col] = FILL_CHARACTER;
+                boardVisitedPlaces[row][col] = false;
+            }
+        }
+    }
+
     public void placePiece(ChessPiece piece, int row, int col){
         board[row][col] = piece.getPieceType();
         boardVisitedPlaces[row][col] = true;
